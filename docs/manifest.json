@@ -1,0 +1,14 @@
+{
+    "categories": [
+        {
+            "id": "library",
+            "name": "Library",
+            "icon": "/assets/images/icons/category-library.svg"
+        },
+        {
+            "id": "developers",
+            "name": "Developers",
+            "icon": "/assets/images/icons/category-developers.svg"
+        }
+    ]
+}

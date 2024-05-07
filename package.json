@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "version": "1.0.0",
+  "name": "@suzzy/library",
+  "scripts": {
+    "preview": "npx nodemon source/Preview.ts -e md,ts,json",
+    "build": "npx ts-node source/Build.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/clean-css": "^4.2.11",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.10",
+    "@types/pug": "^2.0.10",
+    "@types/uglify-js": "^3.17.5",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "clean-css": "^5.3.3",
+    "uglify-js": "^3.17.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pug": "^3.0.2"
+  }
+}

@@ -1,0 +1,129 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        link(rel='icon' type='image/png' href='/assets/images/favicon.png')
+        link(rel='stylesheet'       href=`/assets/styles/ui-elements.css?v=${version}`)
+        link(rel='stylesheet'       href=`/assets/styles/ui-layout.css?v=${version}`)
+        link(rel='stylesheet' href='/assets/fonts/font-poppins.css')
+        //- Metadata 
+        meta(property='theme-color' content='#A1A8FF')
+        meta(property='og:image' content='https://suzzy.games/assets/images/og-logo.png')
+        meta(property='og:title'        content=`${article.category.name} - ${article.title}`)
+        meta(property='og:description'  content=article.snippet)
+        meta(name='description'         content=article.snippet)
+        title #{article.category.name} - #{article.title}
+        //- NoScript Styling
+        noscript
+            style.
+                div.element-audio{display:none}
+    body
+        div(class='layout-wrapper')
+            //- Navigation Bar
+            div(class='layout-navigation special-shadow special-scroll')
+                a(href='https://suzzy.games')
+                    img(class='navigation-logo' src='/assets/images/navigation-logo.png' alt='Logo for suzzy games')
+                each someSection of sidebar
+                    if someSection.articles.length > 0
+                        div(class='navigation-header') 
+                            img(src=someSection.category.icon alt=`Icon for ${someSection.category.name}`)
+                            p #{someSection.category.name}
+                        each someArticle of someSection.articles
+                            - var someLink = `/${someArticle.categoryId}/${someArticle.id}`
+                            - var thisLink = view === someLink
+                            a(href=someLink class='aside-link' + (thisLink ? ' active' : ''))
+                                | #{someArticle.public ? '' : '❌'} #{someArticle.title}
+                            if thisLink
+                                each someElement in someArticle.elements
+                                    case someElement.type
+                                        when 'header'
+                                            a(class='aside-anchor' href=`#${NormalizeString(someElement.value)}`)
+                                                | &bull; #{someElement.value}
+            //- Article Content
+            div(class='layout-content' id='home')
+                each someElement in article.elements
+                    case someElement.type
+                        when 'header'
+                            p(class='element-header' id=NormalizeString(someElement.value)) 
+                                | #{someElement.value}
+                        when 'subheader'
+                            p(class='element-subheader' id=NormalizeString(someElement.value)) 
+                                | #{someElement.value}
+                        when 'quote'
+                            p(class='text-quote') > #{someElement.value} 
+                        when 'paragraph'
+                            p
+                                each paragraphElement in someElement.elements
+                                    case paragraphElement.type
+                                        when 'text' 
+                                            | #{paragraphElement.value} 
+                                        when 'hint'
+                                            | #[span(class='text-hint') #{paragraphElement.value}] 
+                                        when 'code'
+                                            | #[span(class='text-code') #{paragraphElement.value}] 
+                                        when 'link' 
+                                            | #[a(class='link-highlight' target='_blank' href=paragraphElement.href) #{paragraphElement.value}] 
+                                        when 'strikethrough' 
+                                            | #[s #{paragraphElement.value}] 
+                                        when 'bold' 
+                                            | #[b #{paragraphElement.value}] 
+                                        when 'italic' 
+                                            | #[i #{paragraphElement.value}] 
+                        when 'table'
+                            table(class='element-table special-shadow')
+                                - var firstRow = someElement.value.at(0)
+                                - var otherRow = someElement.value.slice(1)
+                                thead
+                                    tr
+                                        each column in firstRow
+                                            th #{column}
+                                tbody
+                                    each row in otherRow
+                                        tr
+                                            each column in row
+                                                td #{column}
+                        when 'list'
+                            ul(class='element-list')
+                                each listItem in someElement.value
+                                    li #{listItem}
+                        when 'banner'
+                            img(class='element-banner' src=someElement.href alt=someElement.value)
+                        when 'image'
+                            div(class='element-gallery')
+                                div(class='gallery-item')
+                                    img(class='special-shadow' loading='lazy' src=someElement.href alt=someElement.value)
+                                    p #{someElement.value}
+                        when 'beanie'
+                            a(href=someElement.href download=someElement.value)
+                                img(class='element-beanie' src=someElement.href alt=someElement.value)
+                        when 'video'
+                            div(class='element-gallery')
+                                div(class='gallery-item')
+                                    video(class='special-shadow' controls preload='none' poster=someElement.poster)
+                                        source(src=someElement.href)
+                                    p #{someElement.value}
+                        when 'audio'
+                            //- Javascriptless Alternative
+                            noscript
+                                p(class='text-muted') #{someElement.title}
+                                audio(preload='none' src=someElement.href controls)
+                            //- Stylized JavaScript Element
+                            div(class='element-audio special-shadow' data-src=someElement.href)
+                                audio(preload='auto')
+                                //- Metadata
+                                div(class='audio-elements')
+                                    p #{someElement.value}
+                                    a(class='audio-download' title='Download Track' download=someElement.value href=someElement.href)
+                                        img(src='/assets/images/icons/icon-download.svg' alt='Icon for Download')
+                                //- Controls
+                                div(class='audio-elements')
+                                    button(class='audio-button' title='Play/Pause Audio')
+                                        img(src='/assets/images/icons/icon-play.svg' alt='Icon for Play/Pause')
+                                    input(class='audio-slider' type='range' value='0' disabled)
+                                    p(class='audio-time') -:--/-:--
+                div(class='layout-spacer')
+                a(class='default action-home' href='#home') ▲
+            
+    //- Page Scripts
+    script(src=`/assets/scripts/ui-browse.js?v=${version}`)

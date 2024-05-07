@@ -1,0 +1,219 @@
+:root {
+    --transition-time: 100ms;
+    --background-layer-5: #1d1e2e;
+    --background-layer-4: #212335;
+    --background-layer-3: #282a3f;
+    --background-layer-2: #2d2f47;
+    --background-layer-1: #333550;
+    --background-layer-0: #a1a8ff;
+    --text-layer-1: #f0f0f0;
+    --text-layer-2: #181818;
+    --warn-layer-1: #f63232;
+}
+
+body {
+    background-color: var(--background-layer-5);
+    padding: 0;
+    margin: 0;
+}
+
+p,
+a,
+pre,
+noscript,
+label,
+input,
+textarea,
+button,
+li,
+th,
+td,
+span {
+    margin: 0;
+    padding: 0;
+    color: var(--text-layer-1);
+    font-family: "Poppins", Arial, sans-serif;
+    font-weight: 400;
+    font-size: medium;
+    padding: 4px 0;
+}
+
+img {
+    /* Hide alt text in images */
+    font-size: 0;
+}
+
+/* Layout: Page */
+div.layout-wrapper {
+    max-width: 1024px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+}
+
+div.layout-navigation {
+    background: var(--background-layer-4) url(/assets/images/navigation-background.png);
+    border: 2px solid var(--background-layer-2);
+    border-bottom: none;
+    border-top: none;
+    flex-basis: 30%;
+    min-width: fit-content;
+    max-width: 300px;
+}
+
+div.layout-navigation::-webkit-scrollbar,
+div.layout-content::-webkit-scrollbar {
+    display: none;
+}
+
+div.layout-navigation,
+div.layout-content {
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+div.layout-content {
+    overflow-y: scroll;
+    height: 100vh;
+    flex-basis: 70%;
+    max-width: 70%;
+}
+
+/* HTML for mobile, div for desktop/tablet */
+html,
+div.layout-content {
+    scroll-behavior: smooth;
+}
+
+div.layout-spacer {
+    height: 20vh;
+}
+
+/* Layout: Navigation */
+div.navigation-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 8px 0;
+}
+
+div.navigation-header p {
+    color: var(--background-layer-0);
+    font-size: large;
+    font-weight: 600;
+    padding: 0;
+}
+
+div.navigation-header img {
+    height: 16px;
+    width: 16px;
+}
+
+img.navigation-logo {
+    height: 50px;
+    object-fit: contain;
+    box-sizing: border-box;
+}
+
+a.aside-link {
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 4px 0;
+    box-sizing: border-box;
+    transition: var(--transition-time) ease-in-out all;
+}
+
+a.aside-link:hover,
+a.aside-link:focus-visible,
+a.aside-link.active {
+    background-color: var(--background-layer-1);
+}
+
+a.aside-anchor {
+    display: block;
+    width: 100%;
+    padding-left: 16px;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: var(--transition-time) ease-in-out color;
+}
+
+a.aside-anchor:hover,
+a.aside-anchor:focus-visible,
+a.aside-anchor.active {
+    color: var(--background-layer-0);
+}
+
+/* Utility: Drop Shadows */
+.special-shadow {
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+}
+
+.special-scroll {
+    animation: effect-scroll 300s linear;
+}
+
+@keyframes effect-scroll {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 100%;
+    }
+}
+
+/* Tablet Styling */
+@media screen and (max-width: 1024px) {
+    div.layout-navigation {
+        border-left: none;
+    }
+}
+
+/* Mobile Styling */
+@media (max-width: 640px) {
+    a.action-home {
+        display: block;
+    }
+
+    div.layout-spacer {
+        /* Just enough space for a.action-home not to get in the way */
+        height: 40px;
+    }
+
+    img.navigation-logo {
+        width: 100%;
+    }
+
+    div.layout-wrapper {
+        display: block;
+        position: relative;
+    }
+
+    div.layout-navigation {
+        border: none;
+        min-width: 100%;
+        border-bottom: 1px solid var(--background-layer-1);
+        /* Remove Shadow */
+        filter: none;
+    }
+
+    div.layout-content {
+        width: 100%;
+        max-width: 100%;
+        height: fit-content;
+        min-height: 100vh;
+    }
+
+    /* Disable Special Effects */
+    a.aside-anchor {
+        color: var(--text-layer-1) !important;
+    }
+
+    .special-scroll {
+        animation: none;
+    }
+}
